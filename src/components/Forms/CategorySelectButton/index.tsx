@@ -5,9 +5,9 @@ import {
   Icon 
 } from './styles';
 
-const icon = {
+const icons = {
   Compras: 'shopping-bag',
-  Alimentação:  'coffee',
+  Alimentação: 'coffee',
   Salário: 'dollar-sign',
   Carro: 'crosshair',
   Lazer: 'heart',
@@ -21,10 +21,10 @@ interface Props {
 
 export function CategorySelectButton({title, onPress}: Props){
   return(
-    <Container onPress={onPress}>
-      <Icon name={icon[title]}/>
-      <Category>{title}</Category>
-      <Icon name="chevron-down" />
-    </Container>
+      <Container onPress={onPress}>
+        <Icon name={icons[title]}/>
+        <Category>{title}</Category>
+        <Icon name="chevron-down" />
+      </Container>
   )
 }
