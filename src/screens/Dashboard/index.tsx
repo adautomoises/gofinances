@@ -1,4 +1,9 @@
-import React, { useState, useEffect } from "react";
+import "intl";
+import "intl/locale-data/jsonp/pt-BR";
+
+import { useFocusEffect } from '@react-navigation/native';
+
+import React, { useState, useEffect, useCallback } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { HighLightCard } from "../../components/HighlightCard";
 import { TransactionCard, TransactionCardProps } from "../../components/TransactionCard";
@@ -32,6 +37,9 @@ export function Dashboard() {
         const dataKey = '@gofinances:transactions';
         const response = await AsyncStorage.getItem(dataKey);
         const transactions = response ? JSON.parse(response) : [];
+        // console.log(dataKey);
+        // console.log(response);
+        // console.log(transactions);
 
         const transactionsFormatted: DataListProps[] = transactions
         .map((item: DataListProps) => {
@@ -46,19 +54,25 @@ export function Dashboard() {
                 year: '2-digit'
             }).format(new Date(item.date));
 
-            return(
+            return {
                 id: item.id,
                 name: item.name,
                 amount,
                 type: item.type,
                 category: item.category,
                 date,
-            )
-        });
+            }
+            });
+
+            setData(transactionsFormatted);
     }
     useEffect(() => {
         loadTransactions();
     },[]);
+
+    useFocusEffect(useCallback(() => {
+        loadTransactions();
+    },[]));
 
     return (
         <Container>
