@@ -11,6 +11,10 @@ import {
   Title,
   Content,
   ChartContainer,
+  MonthSelect,
+  MonthSelectButton,
+  MonthSelectIcon,
+  Month,
 } from './styles';
 import { categories } from '../../utils/categories';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -92,6 +96,18 @@ export function Resume() {
         <Title>Resumo por categoria</Title>
       </Header>
       <Content>
+        <MonthSelect>
+          <MonthSelectButton>
+            <MonthSelectIcon name="chevron-left"/>
+          </MonthSelectButton>
+
+          <Month>Setembro</Month>
+
+          <MonthSelectButton>
+            <MonthSelectIcon name="chevron-right"/>
+          </MonthSelectButton>
+        </MonthSelect>
+
         <ChartContainer>
           <VictoryPie
             padAngle={5}
