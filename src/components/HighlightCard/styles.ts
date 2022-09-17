@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 interface TypeProps {
   type: 'up' | 'down' | 'total';
@@ -13,6 +13,7 @@ export const Container = styled.View<TypeProps>`
   padding: 19px 23px;
   padding-bottom: ${RFValue(42)}px;
   margin-right: 16px;
+  height: ${RFPercentage(30)}px;
 `;
 
 export const Header = styled.View`
@@ -50,6 +51,6 @@ export const Amount = styled.Text<TypeProps>`
 
 export const LastTransaction = styled.Text<TypeProps>`
   font-family: ${({theme}) => theme.fonts.regular};
-  font-size: ${RFValue(12)}px;
+  font-size: ${RFValue(11)}px;
   color: ${({theme, type}) =>  type === 'total' ? theme.colors.shape : theme.colors.text };
 `;
