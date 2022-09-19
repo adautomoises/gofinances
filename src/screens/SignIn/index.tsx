@@ -77,7 +77,8 @@ export function SignIn() {
             svg={GoogleSvg}
             onPress={handleSignInWithGoogle}
           />
-         { Platform.OS === 'ios' && <SignInSocialButton 
+         { Platform.OS === 'ios' && 
+         <SignInSocialButton 
             title="Entrar com Apple"
             svg={AppleSvg}
             onPress={handleSignInWithApple}
