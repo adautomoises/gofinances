@@ -77,11 +77,11 @@ export function SignIn() {
             svg={GoogleSvg}
             onPress={handleSignInWithGoogle}
           />
-          <SignInSocialButton 
+         { Platform.OS === 'ios' && <SignInSocialButton 
             title="Entrar com Apple"
             svg={AppleSvg}
             onPress={handleSignInWithApple}
-          />
+          />}
         </FooterWrapper>
 
         { isLoading && 
