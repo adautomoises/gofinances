@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator } from 'react-native';
 import { useTheme } from 'styled-components';
 import { StatusBar } from 'expo-status-bar';
-import { useAuth } from "../../hooks/auth"; 
+import { useAuth } from "../../hooks/auth";
 import { HighLightCard } from "../../components/HighlightCard";
 import { TransactionCard, TransactionCardProps } from "../../components/TransactionCard";
 import {
@@ -49,15 +49,20 @@ export function Dashboard() {
   const theme = useTheme();
   const { signOut, user } = useAuth();
   function getLastTransactionDate(
-    collection: DataListProps[], 
+    collection: DataListProps[],
     type: 'positive' | 'negative'
-    ){
-    const lastTransaction = new Date(
-    Math.max.apply(Math, collection
-    .filter(transactions => transactions.type === type)
-    .map(transactions => new Date(transactions.date).getTime())));
+  ) {
+    const collectionFilttered = collection.filter(transactions => transactions.type === type);
+
+    if(collectionFilttered.length === 0){
+      return 0;
+    }
     
-    return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString('pt-BR', {month: "long"})}`
+    const lastTransaction = new Date(
+      Math.max.apply(Math, collectionFilttered 
+        .map(transactions => new Date(transactions.date).getTime())));
+
+    return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString('pt-BR', { month: "long" })}`
   }
 
   async function loadTransactions() {
@@ -103,7 +108,8 @@ export function Dashboard() {
 
     const lastTransactionEntries = getLastTransactionDate(transactions, 'positive');
     const lastTransactionExpensives = getLastTransactionDate(transactions, 'negative');
-    const totalInterval = `01 a ${lastTransactionExpensives}`;
+
+    const totalInterval = lastTransactionExpensives === 0 ? 'Não há transações' : `01 a ${lastTransactionExpensives}`;
 
     const total = entriesTotal - expensiveTotal;
     setHighLightData({
@@ -112,14 +118,14 @@ export function Dashboard() {
           style: 'currency',
           currency: 'BRL'
         }),
-        lastTransaction: `Última entrada dia ${lastTransactionEntries}`
+        lastTransaction: lastTransactionEntries === 0 ? 'Não há transações' : `Última entrada dia ${lastTransactionEntries}`
       },
       expensives: {
         amount: expensiveTotal.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL'
         }),
-        lastTransaction: `Última saída dia ${lastTransactionExpensives}`
+        lastTransaction: lastTransactionExpensives === 0 ? 'Não há transações' : `Última saída dia ${lastTransactionExpensives}`
       },
       total: {
         amount: total.toLocaleString('pt-BR', {
@@ -142,57 +148,57 @@ export function Dashboard() {
   return (
     <Container>
       {
-        isLoading ? 
+        isLoading ?
           <LoadContainer>
-            <ActivityIndicator color={theme.colors.primary} size="large" /> 
+            <ActivityIndicator color={theme.colors.primary} size="large" />
           </LoadContainer> :
-        <>
-          <StatusBar style="light" />
-          <Header>
-            <UserWrapper>
-              <UserInfo>
-                <Photo
-                  source={{ uri: user.photo }}
-                />
-                <User>
-                  <UserGreeting>Olá,</UserGreeting>
-                  <UserName>{user.name}</UserName>
-                </User>
-              </UserInfo>
-              <LogoutButton onPress={signOut}>
-                <Icon name="power" />
-              </LogoutButton>
-            </UserWrapper>
-          </Header>
+          <>
+            <StatusBar style="light" />
+            <Header>
+              <UserWrapper>
+                <UserInfo>
+                  <Photo
+                    source={{ uri: user.photo }}
+                  />
+                  <User>
+                    <UserGreeting>Olá,</UserGreeting>
+                    <UserName>{user.name}</UserName>
+                  </User>
+                </UserInfo>
+                <LogoutButton onPress={signOut}>
+                  <Icon name="power" />
+                </LogoutButton>
+              </UserWrapper>
+            </Header>
 
-          <HighLightCards>
-            <HighLightCard 
-              type="up" 
-              title="Entradas" 
-              amount={highlightData.entries.amount} 
-              lastTransaction={highlightData.entries.lastTransaction} />
-            <HighLightCard 
-              type="down" 
-              title="Saídas" 
-              amount={highlightData.expensives.amount} 
-              lastTransaction={highlightData.expensives.lastTransaction} />
-            <HighLightCard 
-              type="total" 
-              title="Total" 
-              amount={highlightData.total.amount} 
-              lastTransaction={highlightData.total.lastTransaction} />
-          </HighLightCards>
+            <HighLightCards>
+              <HighLightCard
+                type="up"
+                title="Entradas"
+                amount={highlightData.entries.amount}
+                lastTransaction={highlightData.entries.lastTransaction} />
+              <HighLightCard
+                type="down"
+                title="Saídas"
+                amount={highlightData.expensives.amount}
+                lastTransaction={highlightData.expensives.lastTransaction} />
+              <HighLightCard
+                type="total"
+                title="Total"
+                amount={highlightData.total.amount}
+                lastTransaction={highlightData.total.lastTransaction} />
+            </HighLightCards>
 
-          <Transactions>
-            <Title>Listagem</Title>
-            <TransactionList
-              data={transactions}
-              keyExtractor={(item: { id: string; }) => item.id}
-              renderItem={({ item }) => <TransactionCard data={item} />}
-            />
+            <Transactions>
+              <Title>Listagem</Title>
+              <TransactionList
+                data={transactions}
+                keyExtractor={(item: { id: string; }) => item.id}
+                renderItem={({ item }) => <TransactionCard data={item} />}
+              />
 
-          </Transactions>
-        </>
+            </Transactions>
+          </>
       }
     </Container>
   )
