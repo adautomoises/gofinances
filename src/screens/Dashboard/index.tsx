@@ -1,10 +1,13 @@
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 
-import { useFocusEffect } from '@react-navigation/native';
-import { useTheme } from 'styled-components';
 import React, { useState, useEffect, useCallback } from "react";
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator } from 'react-native';
+import { useTheme } from 'styled-components';
 import { StatusBar } from 'expo-status-bar';
+import { useAuth } from "../../hooks/auth"; 
 import { HighLightCard } from "../../components/HighlightCard";
 import { TransactionCard, TransactionCardProps } from "../../components/TransactionCard";
 import {
@@ -24,8 +27,6 @@ import {
   LogoutButton,
   LoadContainer
 } from './styles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ActivityIndicator } from 'react-native';
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -46,7 +47,7 @@ export function Dashboard() {
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
   const [highlightData, setHighLightData] = useState<HighLightData>({} as HighLightData);
   const theme = useTheme();
-
+  const { signOut, user } = useAuth();
   function getLastTransactionDate(
     collection: DataListProps[], 
     type: 'positive' | 'negative'
@@ -63,9 +64,7 @@ export function Dashboard() {
     const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
-    // console.log(dataKey);
-    // console.log(response);
-    // console.log(transactions);
+
 
     let entriesTotal = 0;
     let expensiveTotal = 0;
@@ -153,23 +152,35 @@ export function Dashboard() {
             <UserWrapper>
               <UserInfo>
                 <Photo
-                  source={{ uri: "https://avatars.githubusercontent.com/u/74927238?v=4" }}
+                  source={{ uri: user.photo }}
                 />
                 <User>
                   <UserGreeting>Olá,</UserGreeting>
-                  <UserName>Adauto</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
-              <LogoutButton onPress={() => { }}>
+              <LogoutButton onPress={signOut}>
                 <Icon name="power" />
               </LogoutButton>
             </UserWrapper>
           </Header>
 
           <HighLightCards>
-            <HighLightCard type="up" title="Entradas" amount={highlightData.entries.amount} lastTransaction={highlightData.entries.lastTransaction} />
-            <HighLightCard type="down" title="Saídas" amount={highlightData.expensives.amount} lastTransaction={highlightData.expensives.lastTransaction} />
-            <HighLightCard type="total" title="Total" amount={highlightData.total.amount} lastTransaction={highlightData.total.lastTransaction} />
+            <HighLightCard 
+              type="up" 
+              title="Entradas" 
+              amount={highlightData.entries.amount} 
+              lastTransaction={highlightData.entries.lastTransaction} />
+            <HighLightCard 
+              type="down" 
+              title="Saídas" 
+              amount={highlightData.expensives.amount} 
+              lastTransaction={highlightData.expensives.lastTransaction} />
+            <HighLightCard 
+              type="total" 
+              title="Total" 
+              amount={highlightData.total.amount} 
+              lastTransaction={highlightData.total.lastTransaction} />
           </HighLightCards>
 
           <Transactions>
