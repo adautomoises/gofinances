@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
@@ -33,8 +33,9 @@ interface AuthorizationResponse {
 const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
-  const [ user, setUser] = useState<User>({} as User);
   const userStorageKey = '@gofinances:user'
+  const [ user, setUser ] = useState<User>({} as User);
+  const [ userStorageLoading, setUserStorageLoading ] = useState(true);
   
   async function signInWithGoogle() {
     try {
@@ -91,6 +92,20 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  useEffect(() => {
+    async function loadUserStorageData() {
+      const userStoraged = await AsyncStorage.getItem(userStorageKey);
+
+      if(userStoraged){
+        const userLogged = JSON.parse(userStoraged) as User;
+        setUser(userLogged);
+      }
+      setUserStorageLoading(false);
+    }
+    loadUserStorageData();
+  }, []);
+
+  
   return (
     <AuthContext.Provider value={{ 
       user,

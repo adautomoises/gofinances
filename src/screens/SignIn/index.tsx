@@ -7,7 +7,7 @@ import LogoSvg from '../../assets/logo.svg';
 
 import { useAuth } from '../../hooks/auth';
 
-import { SingInSocialButton } from '../../components/SignInSocialButton';
+import { SignInSocialButton } from '../../components/SignInSocialButton';
 
 import {
   Container,
@@ -19,7 +19,7 @@ import {
   FooterWrapper,
 } from './styles';
 
-export function SingIn() {
+export function SignIn() {
   const { user, signInWithGoogle, signInWithApple } = useAuth();
 
   async function handleSignInWithGoogle() {
@@ -63,12 +63,12 @@ export function SingIn() {
       </Header>
       <Footer>
         <FooterWrapper>
-          <SingInSocialButton 
+          <SignInSocialButton 
             title="Entrar com Google"
             svg={GoogleSvg}
             onPress={handleSignInWithGoogle}
           />
-          <SingInSocialButton 
+          <SignInSocialButton 
             title="Entrar com Google"
             svg={AppleSvg}
             onPress={handleSignInWithApple}
