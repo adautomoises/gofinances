@@ -36,7 +36,8 @@
     "react-native-web": "~0.18.7",
     "styled-components": "^5.3.5",
     "victory-native": "^36.6.7",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-apple-authentication": "~4.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
