@@ -149,7 +149,7 @@ export function Resume() {
               }}
               x={"percent"}
               y={"total"}
-              labelRadius={RFValue(140)}
+              labelRadius={RFValue(135)}
             />
           </ChartContainer>
           {
