@@ -1,6 +1,11 @@
 # gofinances
 
-<img src="./src/assets/images/Screenshot_gofinances.png" alt="Design das telas do GoFinances">
+<p align="center">
+  <img src="src/assets/images/gofinances_video1.gif">
+</p><p align="center">
+<p align="center">
+  <img src="src/assets/images/gofinances_video2.gif">
+</p><p align="center">
 
 > O aplicativo gofinances pode registrar todos os seus gastos, também o dinheiro que você recebe proveniente de salário ou job extra. E o melhor: Um gráfico de resumo dos valores de cada categoria de acordo com o mês.
 
