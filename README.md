@@ -54,7 +54,7 @@ Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais
  
 ### Feito com ❤️ por Adauto Moisés 👋🏽 Entre em contato! 
 
-<a href="https://www.linkedin.com/posts/adautomoises_reactnative-activity-6978381848208904192-sDc7?utm_source=share&utm_medium=member_desktop" alt="linkedin" target="_blank">
+<a href="https://www.linkedin.com/posts/adautomoises_opa-eu-estou-de-volta-com-mais-um-projeto-activity-6984350479040299008-mh49?utm_source=share&utm_medium=member_desktop" alt="linkedin" target="_blank">
   <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?&style=flat-square&logo=linkedin&logoColor=white">
 </a>
  
