@@ -5,6 +5,7 @@ import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from
 import theme from './src/global/styles/theme'
 import { Routes } from './src/routes';
 import { AuthProvider, useAuth } from './src/hooks/auth';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 SplashScreen.preventAutoHideAsync();
 export default function App() {
@@ -22,10 +23,12 @@ export default function App() {
     return null
   }
   return (
-    <ThemeProvider theme={theme}>
-          <AuthProvider>
-            <Routes />
-          </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
       </ThemeProvider>
+    </GestureHandlerRootView>
   )
 }
